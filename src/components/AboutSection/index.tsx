@@ -1,9 +1,11 @@
-import {useState, useRef, useEffect} from 'react';
+"use client";
+
+import React, {useState, useRef, useEffect} from 'react';
 import styles from './aboutSection.module.scss';
-import {SiteBanners} from "../../../model.tsx";
 import parse from "html-react-parser";
-import {Skeleton} from "components/Skeleton";
-import {useWindowSize} from "../../../hooks/WindoSize/useWindowSize.tsx"; // Переконайтесь, що шлях правильний
+import {useWindowSize} from "@/hooks/WindoSize/useWindowSize";
+import {SiteBanners} from "@/model";
+import {Skeleton} from "@/components/Skeleton";
 
 interface SiteBanner {
     siteBanners: SiteBanners;
@@ -48,8 +50,9 @@ export const AboutSection: React.FC<SiteBanner> = ({siteBanners, loading}) => {
                             style={{maxHeight: contentHeight}} // Динамічно встановлюємо max-height
                         >
                             <p ref={textContentRef} className={styles.aboutSection_text}>
-                                {parse(siteBanners.desc)}
+
                             </p>
+                            {parse(siteBanners.desc)}
                         </div>
                         <button onClick={toggleReadMore} className={styles.aboutSection_buttonReact}>
                             {isExpanded ? 'ЗАКРИТИ' : 'ЧИТАТИ ПОВНІСТЮ'}

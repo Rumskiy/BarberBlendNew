@@ -1,0 +1,77 @@
+/* productInfoSwiper.module.scss */
+
+.swiperContainer {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box !important;
+  gap: 2rem;
+  position: sticky;
+  top: 100px;
+
+  @media (max-width: 1024px) {
+    gap: 1rem;
+    flex-direction: column-reverse;
+    max-height: 550px;
+  }
+
+}
+
+/* міні-свайпер зліва: вертикальні thumbs */
+.thumbSwiperMini {
+  width: 100%;
+  flex: 0 0 100px;
+
+  @media (max-width: 1024px) {
+    max-width: 700px;
+  }
+
+  &_slides {
+    border-radius: 12px;
+    height: 100px !important;
+    border: 1px solid #00000050;
+    overflow: hidden;
+    box-sizing: border-box;
+
+
+    &_img {
+      object-fit: contain;
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
+
+/* великий слайдер справа: займає весь залишковий простір */
+.thumbSwiperMain {
+  //width: 100% !important;
+  box-sizing: border-box !important;
+
+  @media (max-width: 1024px) {
+    width: auto;
+  }
+
+  /* за потреби обмежити висотою */
+
+  &_slides {
+    height: 500px;
+    width: 100% !important;
+    border-radius: 12px;
+    overflow: hidden;
+    box-sizing: border-box;
+
+
+    @media (max-width: 1024px) {
+      height: 400px;
+    }
+
+    &_img {
+      object-fit: contain;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.swiper-slide {
+  box-sizing: border-box;
+}

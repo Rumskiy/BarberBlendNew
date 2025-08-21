@@ -70,17 +70,14 @@ export const removeFromCart = async (data: Omit<CartActionPayload, 'quantity'>):
     return response.data;
 };
 
-/**
- * Очистити весь кошик.
- */
-export const clearCart = async (guest_token: string) => {
+export const clearCart = async () => {
+    const guest_token = localStorage.getItem('guestToken');
+
     const response = await apiClient.delete('cart/clear_cart', {data: {guest_token}});
     return response.data;
 };
 
-/**
- * Застосувати промокод до кошика.
- */
+
 export const applyPromocode = async (promo_code: string, guest_token: string) => {
     const response = await apiClient.post('cart/apply_promocode', {promo_code, guest_token});
     return response.data;

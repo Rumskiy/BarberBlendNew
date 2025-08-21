@@ -2,8 +2,9 @@
 import {Inter} from 'next/font/google';
 import Script from 'next/script';
 import type {Metadata} from 'next';
-import React from "react";
 import {Providers} from "@/app/providers";
+import {getAllCategory} from "@/lib/api/category";
+import {MainLayout} from '@/components/MainLayout/MainLayout';
 
 // Поліпшення: Оптимізоване завантаження шрифту через next/font
 const inter = Inter({subsets: ['latin', 'cyrillic']});
@@ -19,6 +20,8 @@ export const metadata: Metadata = {
         },
     },
 };
+
+const categories = await getAllCategory();
 
 export default function RootLayout({
                                        children,
@@ -59,7 +62,10 @@ export default function RootLayout({
         </noscript>
 
         <Providers>
-            {children}
+            {/* Передаємо категорії в компонент-обгортку */}
+            <MainLayout categories={categories}>
+                {children}
+            </MainLayout>
         </Providers>
 
         <div id="modal-root"></div>

@@ -1,0 +1,142 @@
+// add buttons or variables
+@use '../assets/scss/style.scss';
+
+.heroSection {
+
+  &_wrapper {
+
+  }
+}
+
+.categories {
+  padding-top: 2rem;
+
+  &_h2 {
+    text-transform: uppercase;
+    font-size: 2rem;
+    margin: 1rem 0;
+
+    @media (max-width: 756px) {
+      font-size: 1.4rem;
+    }
+  }
+}
+
+.blog {
+  padding: 4rem 0;
+
+  &_text {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4rem;
+
+    @media (max-width: 756px) {
+      align-items: end;
+    }
+
+    &_button {
+      cursor: pointer;
+      font-size: 1rem;
+      text-decoration: underline;
+      text-underline-offset: 0.4rem;
+
+      @media (max-width: 756px) {
+        font-size: 1rem;
+        text-align: end;
+      }
+    }
+  }
+
+  &_wrapper {
+
+  }
+
+  &_h2 {
+    text-transform: uppercase;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    @media (max-width: 756px) {
+      font-size: 1.4rem;
+    }
+  }
+}
+
+.gridImgs {
+  margin-top: 4rem;
+
+  &_h2 {
+    text-transform: uppercase;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    @media (max-width: 756px) {
+      font-size: 1.4rem;
+    }
+  }
+
+  &_wrapper {
+
+  }
+
+  &_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(1, 1fr);
+
+    }
+
+
+    &_wrapperImg {
+      border-radius: 20px;
+      overflow: hidden;
+      width: 100%;
+
+      &_img {
+
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+}
+
+.yourProducts {
+
+}
+
+.moreBlock {
+  padding-top: 4rem;
+
+  &_h2 {
+    text-transform: uppercase;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+
+    @media (max-width: 756px) {
+      font-size: 1.4rem;
+    }
+  }
+
+  &_container {
+    overflow-x: hidden;
+  }
+}
+
+.aboutSection {
+  background: #F4F4F4;
+  margin-top: 5rem;
+
+  &_wrapper {
+    padding: 5rem 0;
+  }
+}

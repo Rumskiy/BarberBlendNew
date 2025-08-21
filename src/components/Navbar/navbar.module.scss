@@ -1,0 +1,196 @@
+@use '../../assets/scss/style.scss';
+
+.navbar {
+  position: static;
+  top: 0;
+  background: #FFFFFF;
+  width: 100%;
+  z-index: 1000;
+  border-bottom: 1px solid;
+
+  &_discount {
+    margin: 0 auto;
+    text-align: center;
+    padding: 16px;
+    background: #212322;
+    color: #fff;
+    font-size: 1rem;
+  }
+
+  &_logoMain {
+    cursor: pointer;
+    position: absolute;
+    margin: 0 auto;
+    top: 20px;
+    left: 0;
+    right: 0;
+    height: 50px;
+
+    @media (max-width: 768px) {
+      height: 35px;
+    }
+  }
+
+  &_logoSmall {
+    cursor: pointer;
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    height: 25px;
+
+    @media (max-width: 768px) {
+      height: 20px;
+    }
+
+    @media (max-width: 420px) {
+      height: 15px;
+    }
+  }
+
+
+  &_wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 0;
+    text-align: center;
+  }
+
+  &_buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: center;
+    @media (max-width: 768px) {
+      gap: 1rem;
+    }
+
+
+    &_cart {
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      background: #80808012;
+      border-radius: 0.8rem;
+      font-size: 1.2rem;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      position: relative;
+      text-transform: uppercase;
+    }
+
+    &_menu {
+      cursor: pointer;
+    }
+  }
+}
+
+.searchIconButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+
+  &:hover {
+    color: #8c8c8c;
+  }
+}
+
+.cartBadge {
+  position: absolute;
+  top: -0.8rem;
+  right: -0.5rem;
+
+  /* зробимо фіксовану ширину і висоту */
+  width: 1.4rem;
+  height: 1.4rem;
+
+  /* 50% від ширини = радіус кола */
+  border-radius: 50%;
+  background: #DD5D03;
+
+  /* центруємо цифру всередині */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 0.7rem;
+  color: #FFFFFF;
+}
+
+.stickyNavBar{
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+}
+
+// Новий загальний клас для іконок-кнопок для уникнення дублювання
+.iconButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+
+  &:hover {
+    // стилі при наведенні
+  }
+}
+
+// Клас для елементів, які видно тільки на десктопі
+.desktopOnly {
+  display: none; // Ховаємо за замовчуванням
+}
+
+// Клас для кнопки пошуку, яка ховається на мобільних
+.searchIconButton {
+  display: none; // Ховаємо за замовчуванням
+}
+
+// Клас для кнопки кошика, яка ховається на мобільних
+.cartButton {
+  display: none; // Ховаємо за замовчуванням
+}
+
+// Додаємо скелетон для іконки авторизації
+.authPlaceholder {
+  width: 26px;
+  height: 26px;
+  background-color: #f0f0f0;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite; // Проста анімація
+}
+
+@keyframes pulse {
+  0% { background-color: #f0f0f0; }
+  50% { background-color: #e0e0e0; }
+  100% { background-color: #f0f0f0; }
+}
+
+
+// --- Media Queries ---
+
+// Мобільні пристрої (від 568px)
+@media (min-width: 568px) {
+  .searchIconButton, .cartButton {
+    display: flex; // Показуємо кнопки пошуку та кошика
+  }
+}
+
+// Планшети (від 768px)
+@media (min-width: 768px) {
+  // Тут можуть бути інші стилі для планшетів
+}
+
+// Великі десктопи (від 1440px)
+@media (min-width: 1440px) {
+  .desktopOnly {
+    display: flex; // Показуємо іконки "Обране" та "Профіль"
+  }
+}

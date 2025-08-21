@@ -1,0 +1,234 @@
+// src/components/SideBarMenu/sideBarMenu.module.scss
+
+.sideBarOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Напівпрозорий фон-оверлей */
+  opacity: 0;
+  pointer-events: none; /* Не клікабельний, коли прихований */
+  transition: opacity 0.3s ease; /* Плавна поява/зникнення */
+  z-index: 1000; /* Високий z-index, щоб бути над усім */
+  display: flex;
+  justify-content: flex-start; /* Розташувати меню зліва */
+  height: 100dvh;
+}
+
+.openOverlay {
+  opacity: 1;
+  pointer-events: all; /* Клікабельний, коли відкритий */
+}
+
+.sideBarMenuContent {
+  position: relative; /* Для позиціонування кнопки закриття */
+  width: 100%;
+  max-width: 500px; /* Ширина сайдбара */
+  height: 100%;
+  background: #fff;
+  transform: translateX(-100%); /* Початковий стан: повністю прихований зліва */
+  transition: transform 0.3s ease; /* Плавне висування/засування */
+  box-sizing: border-box; /* Включити padding у ширину */
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1); /* Тінь праворуч */
+  overflow-y: auto; /* Дозволити скрол, якщо контенту багато */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    max-width: 380px; /* Трохи менше для мобільних */
+  }
+
+  @media (max-width: 480px) {
+    max-width: 90%; /* Адаптивна ширина для дуже малих екранів */
+  }
+
+  &_openMenuContent {
+    &_buttons {
+      display: flex;
+      width: 100%;
+    }
+  }
+
+  &_buttons {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    align-items: center;
+    padding: 0 1rem 1rem 1rem;
+
+    &_item{
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1rem;
+      background: #80808012;
+      border-radius: 12px;
+      cursor: pointer;
+      width: 100%;
+      justify-content: center;
+
+      &:hover {
+        color: #8c8c8c;
+      }
+    }
+  }
+
+  &_item{
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    justify-content: space-between;
+
+  }
+}
+
+.openMenuContent {
+  transform: translateX(0); /* Висуває меню */
+}
+
+.closeButton {
+  position: absolute;
+  top: 25px;
+  right: 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px; /* Розмір іконки */
+  color: #333;
+  padding: 5px;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #777;
+  }
+}
+
+.menuTitle {
+  font-size: 24px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #333;
+  padding: 0 20px 20px; /* Відступ знизу та з боків */
+  border-bottom: 1px solid #eee; /* Лінія під заголовком */
+  margin-top: 2rem;
+}
+
+.categoryList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 60dvh;
+  overflow-y: auto ;
+
+  @media (max-height: 600px) {
+    max-height: 40dvh;
+  }
+}
+
+.categoryItem {
+  border-bottom: 1px solid #eee; /* Розділювач між категоріями */
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.categoryHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  cursor: pointer; /* Весь заголовок клікабельний */
+}
+
+.categoryButton {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  text-align: left;
+  flex-grow: 1; /* Займає всю доступну ширину для тексту */
+  transition: color 0.2s ease;
+  text-transform: uppercase;
+
+
+
+}
+
+.accordionToggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  margin-left: 10px;
+  color: #777;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    color: #4c4c4c;
+  }
+}
+
+.subCategoryAccordion {
+  overflow: hidden; /* Важливо для анімації max-height */
+  transition: max-height 0.3s ease-out; /* Анімація розкриття */
+}
+
+.subCategoryList {
+  list-style: none;
+  margin: 0;
+  padding-left: 20px; /* Відступ для підкатегорій */
+}
+
+.subCategoryItem {
+  border-top: 1px solid #eee; /* Розділювач для підкатегорій */
+
+  &:first-child {
+    border-top: none; /* Прибрати перший розділювач */
+  }
+}
+
+.subCategoryButton {
+  display: block; /* Щоб кнопка займала всю ширину */
+  width: 100%;
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 16px;
+  color: #000000;
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    color: #323232;
+    background-color: #e4e4e450;
+  }
+}
+
+.textButton{
+  cursor: pointer;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-align: start;
+
+  &:hover {
+    color: #777;
+  }
+}

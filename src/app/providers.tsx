@@ -1,6 +1,6 @@
 'use client';
 
-import React from "react";
+import React, {useEffect} from "react";
 import {AuthProvider} from "@/contexts/Auth";
 import {ModalProvider} from "@/contexts/ModalContext";
 import {CartProvider} from "@/contexts/CartContext";
@@ -8,14 +8,28 @@ import {ModalCheckoutProvider} from "@/contexts/ModalFastCheckoutContext";
 import {antdThemeConfig} from "@/theme";
 import { ConfigProvider } from "antd";
 import { ToastContainer } from "react-toastify";
+import axios from "axios";
+import {createGuestToken} from "@/lib/api/auth";
 
 export function Providers({ children }: { children: React.ReactNode }) {
-    // Логіку для гостьового токену можна перенести сюди,
-    // оскільки це клієнтський ефект, який має виконуватись один раз.
-    React.useEffect(() => {
+
+
+    useEffect(() => {
         const loadGuestToken = async () => {
-            // ... твоя логіка з useEffect з App.tsx
+            const storedGuestToken = localStorage.getItem('guestToken'); // Перевіряємо localStorage
+            if (storedGuestToken) {
+                axios.defaults.headers.common['Authorization'] = `Bearer ${storedGuestToken}`;
+            } else {
+                try {
+                    const response = await createGuestToken(); // Запит нового токена
+                    const newGuestToken = response.guest_token;
+                    localStorage.setItem('guestToken', newGuestToken); // Зберігаємо новий токен
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${newGuestToken}`; // Встановлюємо
+                } catch (e) {
+                }
+            }
         };
+
         loadGuestToken();
     }, []);
 

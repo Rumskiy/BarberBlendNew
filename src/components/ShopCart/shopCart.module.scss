@@ -1,0 +1,225 @@
+.sideShopCart{
+  position: fixed;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  height: 100dvh;
+
+  /* початковий стан: прихований, не клікабельний */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 100;
+  inset: 0;
+
+  &_h3{
+    font-size: 1rem;
+    text-transform: uppercase;
+  }
+
+  &_productInCard{
+    position: absolute;
+    right: 0;
+  }
+
+  &_menu{
+    position: absolute;
+    box-sizing: border-box;
+    top: 0;
+    right: 0;
+    width: 90%;
+    max-width: 600px;
+    height: 100%;
+    background: #fff;
+    padding: 3rem 3rem;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    @media (max-width: 768px) {
+      padding: 1rem 1rem;
+    }
+
+    &_cart{
+      width: auto;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #C2C2C2;
+
+      &_bonus{
+        padding: 1rem 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        gap: 1rem;
+
+        &_itemUnable{
+          width: 100%;
+          text-align: center;
+          padding: 1rem 1.5rem;
+          border-radius: 12px;
+          font-size: 1rem;
+          color: #00000050;
+          background: #F4F4F4;
+        }
+        &_itemAvaible{
+          width: 100%;
+          text-align: center;
+          padding: 1rem 1.5rem;
+          border-radius: 12px;
+          font-size: 1rem;
+          color: #FFFFFF;
+          background: #DD5D03;
+        }
+
+        &_itemChoise{
+          width: 100%;
+          text-align: center;
+          padding: 1rem 1.5rem;
+          border-radius: 12px;
+          font-size: 1rem;
+          color: #000000;
+          background: #F6F6F6;
+        }
+      }
+
+      &_items{
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        max-height: 60dvh;
+        overflow-y: auto;
+        flex-grow: 1;
+
+        //@media (max-height: 768px) {
+        //  max-height: 40dvh;
+        //}
+
+        //@media (max-height: 560px) {
+        //  max-height: 40dvh;
+        //}
+
+        &::-webkit-scrollbar {
+          width: 10px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background-color: #e4e4e4;
+          border-radius: 100px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: #c6c6c6;
+          border-radius: 100px;
+        }
+
+
+        &_item{
+          border-bottom: 1px solid #C2C2C2;
+        }
+      }
+
+      &_ammount{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 1rem 0;
+        gap: 0.5rem;
+
+        &_items{
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+
+          &_sum{
+            font-size: 1.2rem;
+            font-weight: 700;
+          }
+        }
+      }
+
+      &_btn{
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        &_buyInClick{
+          padding: 1rem;
+          width: 100%;
+          border-radius: 12px;
+          font-size: 1rem;
+          cursor: pointer;
+          color: #FFFFFF;
+          background: #DD5D03;
+          transition: 0.3s ease-in-out;
+          border: 1px solid #DD5D03;
+          text-align: center;
+
+          &:hover{
+            color: #DD5D03;
+            background: #FFFFFF;
+          }
+        }
+
+        &_promo{
+          display: flex;
+          flex-direction: row;
+          border-radius: 12px;
+          border: 1px solid #C2C2C2;
+          padding: 0.8rem;
+          justify-content: space-between;
+          box-sizing: border-box;
+
+          @media (max-width: 568px) {
+            padding: 0.7rem;
+          }
+
+          &_aprove{
+            cursor: pointer;
+            font-size: 0.8rem;
+            color: #DD5D03;
+
+            @media (max-width: 568px) {
+              font-size: 0.8rem;
+            }
+          }
+
+          &_input{
+            font-size: 1rem;
+            width: 100%;
+
+            @media (max-width: 568px) {
+              font-size: 0.9rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.openShopCart {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.openMenu {
+  transform: translateX(0);
+}
+
+.error{
+  border: 1px solid red;
+}
+
+.errorText{
+  position: absolute;
+  color: red;
+  font-size: 0.8rem;
+}

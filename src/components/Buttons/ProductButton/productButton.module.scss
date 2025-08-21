@@ -1,0 +1,16 @@
+.productButton{
+  border-radius: 8px;
+  background: #000;
+  color: #fff;
+  padding: 0.5rem;
+  transition: all .3s ease-in-out;
+  font-size: 0.9rem;
+  cursor: pointer;
+  width: 100%;
+  border: 1px solid;
+
+  &:hover{
+    background: #DD5D03;
+    color: #FFFFFF;
+  }
+}

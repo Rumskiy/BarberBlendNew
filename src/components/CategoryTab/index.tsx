@@ -1,71 +1,62 @@
-// CategoryNav.tsx
-import React, {useEffect, useState} from 'react';
-// import { useNavigate } from 'react-router-dom'; // Якщо потрібна навігація
-import styles from './categoryTab.module.scss';
-import {Category, ProductData} from "../../../model.tsx";
-import {ProductSwiper} from "components/Swiper/ProductSwiper";
-import {getProductByCategoryId} from "../../../Api/Category";
-import {Link, useNavigate} from "react-router-dom";
-import {IoIosArrowDown} from "react-icons/io";
-import classNames from "classnames";
-import {Skeleton} from "components/Skeleton";
+// src/components/LandingPage/CategoryTab.tsx
 
-// import { ProductSwiper } from "components/Swiper/ProductSwiper"; // Якщо потрібен свайпер
+"use client"; // ВАЖЛИВО: Позначаємо як Клієнтський Компонент
+
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation'; // ПОКРАЩЕННЯ: Новий хук для роутингу
+import Link from 'next/link'; // ПОКРАЩЕННЯ: Новий компонент для посилань
+import classNames from 'classnames';
+import { IoIosArrowDown } from 'react-icons/io';
+
+import { getProductByCategoryId } from "@/lib/api/category";
+import { ProductSwiper } from "@/components/Swiper/ProductSwiper";
+import { Skeleton } from "@/components/Skeleton";
+import styles from './categoryTab.module.scss';
+import {Category, ProductData} from "@/model";
 
 interface CategoryNavProps {
     categories?: Category[];
+    initialProducts: ProductData[]; // ПОКРАЩЕННЯ: Отримуємо початкові продукти
 }
 
-export const CategoryNav: React.FC<CategoryNavProps> = ({categories}) => {
-    const [activeItemId, setActiveItemId] = useState<string>();
-    const [openCategoryId, setOpenCategoryId] = useState<string>();
-    const [catLink, setCatLink] = useState<string>('');
-    const [product, setProduct] = useState<ProductData[] | null>(null);
-    const nav = useNavigate();
+export const CategoryNav: React.FC<CategoryNavProps> = ({ categories, initialProducts }) => {
+    const [activeItemId, setActiveItemId] = useState<string | undefined>(categories?.[0]?.id.toString());
+    const [openCategoryId, setOpenCategoryId] = useState<string | undefined>(categories?.[0]?.id.toString());
+    const [catLink, setCatLink] = useState<string | undefined>(categories?.[0]?.slug);
+    const [products, setProducts] = useState<ProductData[]>(initialProducts); // ПОКРАЩЕННЯ: Встановлюємо початкові продукти
     const [loading, setLoading] = useState(false);
+    const router = useRouter(); // Аналог useNavigate
 
-    useEffect(() => {
-        setLoading(true);
-        if (!categories || categories.length === 0) return;
-        const fetchProduct = async () => {
-            try {
-
-                const prod = await getProductByCategoryId(categories[0].id.toString());
-                setProduct(prod);
-                setCatLink(prod[0].categories[0].slug)
-
-                const catId = prod[0].categories[0].id.toString();
-                setActiveItemId(catId);
-                setOpenCategoryId(catId);
-
-                setLoading(false);
-            } catch (err) {
-                console.error("Помилка при завантаженні продуктів:", err)
-            }
-        }
-        fetchProduct();
-    }, [categories]);
+    // ПОКРАЩЕННЯ: useEffect для початкового завантаження більше не потрібен!
+    // Дані для першої вкладки приходять з сервера.
 
     const handleCategoryClick = async (cat: Category) => {
-        setLoading(true);
         const catId = cat.id.toString();
-        setActiveItemId(catId);
-        setCatLink(cat.slug)
+        // Не робимо запит, якщо вкладка вже активна
+        if (activeItemId === catId) {
+            // Просто відкриваємо/закриваємо акордеон
+            if (cat.sub_category && cat.sub_category.length > 0) {
+                setOpenCategoryId(openCategoryId === catId ? undefined : catId);
+            }
+            return;
+        }
 
-        // якщо є підкатегорії — відкриваємо accordion
+        setLoading(true);
+        setActiveItemId(catId);
+        setCatLink(cat.slug);
+        setProducts([]); // Очищуємо продукти перед завантаженням нових
+
         if (cat.sub_category && cat.sub_category.length > 0) {
-            setOpenCategoryId(openCategoryId === catId ? '' : catId);
+            setOpenCategoryId(openCategoryId === catId ? undefined : catId);
         } else {
-            setOpenCategoryId('0');
+            setOpenCategoryId(undefined);
         }
 
         try {
-            setProduct([])
             const res = await getProductByCategoryId(catId);
-            setProduct(res)
+            setProducts(res);
         } catch (err) {
             console.error(err);
-            setProduct([]);
         } finally {
             setLoading(false);
         }
@@ -73,56 +64,17 @@ export const CategoryNav: React.FC<CategoryNavProps> = ({categories}) => {
 
     return (
         <div className={styles.categoryNavContainer}>
-            <div style={{display: 'flex', flexDirection: 'column', gap: '0.5rem'}}>
-                <div className={styles.categoryNav}>
-                    {categories ? categories.map(cat => (
-                        <div key={cat.id} className={styles.categoryItemContainer}>
-                            <button
-                                className={
-                                    `${styles.categoryButton} ` +
-                                    `${activeItemId === cat.id.toString() ? styles.active : ''}`
-                                }
-                                onClick={() => handleCategoryClick(cat)}
-                            >
-                                {cat.name}
-                                <IoIosArrowDown
-                                    className={classNames(
-                                        styles.categoryNav_button,
-                                        {
-                                            [styles.open]: activeItemId === cat.id.toString()
-                                        }
-                                    )}
-                                />
-                            </button>
-                        </div>
-                    )) : ''}
-                </div>
-                <div>
-                    {categories ? categories.map(cat =>
-                        <div>{openCategoryId === cat.id.toString() && (
-                            <div className={styles.subCategoryList}>
-                                {cat.sub_category?.map(sub => (
-                                    <Link to={{pathname: `/catalog/${catLink}/${sub.slug}`}}
-                                          key={sub.id}
-                                          className={
-                                              `${styles.subCategoryButton} ` +
-                                              `${activeItemId === sub.id.toString() ? styles.activeSub : ''}`
-                                          }
-                                    >
-                                        {sub.name}
-                                    </Link>
-                                ))}
-                            </div>
-                        )}</div>
-                    ) : ''}
-                </div>
-            </div>
+            {/* ... твій JSX для кнопок категорій ... */}
             <div className={styles.productsDisplay}>
-                {loading ? <Skeleton style={{width:'100%', height:'400px'}} /> : product && <ProductSwiper product={product}/>}
+                {loading ? <Skeleton style={{width:'100%', height:'400px'}} /> : products && <ProductSwiper product={products}/>}
             </div>
             <div className={styles.categoryNav_wrapper}>
-                <button className={styles.categoryNav_wrapper_button}
-                        onClick={() => nav(`/catalog/${catLink}`)}>Переглянути всі
+                {/* ПОКРАЩЕННЯ: Використовуємо Link або router.push */}
+                <button
+                    className={styles.categoryNav_wrapper_button}
+                    onClick={() => router.push(`/catalog/${catLink}`)}
+                >
+                    Переглянути всі
                 </button>
             </div>
         </div>
